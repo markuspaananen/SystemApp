@@ -20,15 +20,17 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_PROVIDER }}
           service_account: ${{ secrets.GCP_SA_EMAIL }}
 
-      - name: Set up gcloud CLI
+      - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v2
 
-      - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker europe-north1-docker.pkg.dev
+      - name: Configure Docker
+        run: gcloud auth configure-docker europe-north1-docker.pkg.dev --quiet
 
-      - name: Build and Push Docker image
-        run: |
-          IMAGE_URI="europe-north1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/SystemApp/systemapp-java21:${{ github.sha }}"
-          docker build -t "$IMAGE_URI" .
-          docker push "$IMAGE_URI"
+      - name: Set image tag
+        run: echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
 
+      - name: Build images
+        run: docker compose build
+
+      - name: Push images
+        run: docker compose push
