@@ -46,3 +46,18 @@ jobs:
           docker build -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" ./
           docker push "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
 
+          - name: Build and Push Container
+          run: |
+            IMAGE_NAME=systemapp-image
+            AR_URL=${{ secrets.REGISTRY_URI }}
+    
+            # Construct the full image tag
+            FULL_IMAGE_TAG="${AR_URL}/${IMAGE_NAME}:${GITHUB_SHA}"
+    
+            # Print the full tag for debugging
+            echo "Attempting to build and push with tag: ${FULL_IMAGE_TAG}"
+    
+            docker build -t "${FULL_IMAGE_TAG}" .
+            docker push "${FULL_IMAGE_TAG}"
+
+
