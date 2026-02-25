@@ -20,7 +20,7 @@ jobs:
         with:
           token_format: access_token
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          service_account: ${{ secrets.SERVICEACCOUNTEMAIL }}
           workload_identity_provider: 'projects/300199361793/locations/global/workloadIdentityPools/systemapp-dev-pool/providers/systemapp-provider-id-action'
 
       - name: Docker Auth
