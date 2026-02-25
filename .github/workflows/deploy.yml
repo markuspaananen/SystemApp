@@ -36,3 +36,7 @@ jobs:
           AR_URL=${{ secrets.REGISTRY_URI }}
           docker build -t "${AR_URL}/${IMAGE_NAME}:${GITHUB_SHA}" .
           docker push "${AR_URL}/${IMAGE_NAME}:${GITHUB_SHA}"
+
+      - name: Debug OIDC token
+        run: |
+          curl -s -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq .
